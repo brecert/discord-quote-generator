@@ -57,8 +57,10 @@
         background-color: var(--background);
 
         display: grid;
-        place-items: center;
-        place-content: center;
+        justify-content: center;
+        padding-top: min(10vmin, 25vw);
+        /* place-items: center;
+        place-content: center; */
 
         /* Debugging */
         /* background-image: url(https://autumn.revolt.chat/attachments/xDUMBMjiXNnJbsbp1T_tGdrdmT0Scwimu3JaEFp6Jj);
@@ -73,10 +75,10 @@
 
         font-family: Ginto Nord;
         font-weight: 800;
-        font-size: 4rem;
+        font-size: min(7vmin, 4rem);
 
-        --width: 1024px;
-        --height: 768px;
+        --width: min(1024px, 90vw);
+        --height: min(768px, 70vw);
 
         /* w: 256, h: 192 */
         min-width: var(--width);
@@ -113,7 +115,7 @@
         text-align: center;
         place-items: center;
 
-        padding-inline: 1em;
+        padding-inline: min(1em, 1vmin);
       }
 
       .avatar {
@@ -138,7 +140,7 @@
       main {
         line-height: 0.9em;
         gap: 2em;
-        margin-block-end: 0.9em;
+        margin-block-end: 0.5em;
       }
 
       .user {
@@ -154,7 +156,15 @@
       }
 
       .logo {
-        scale: 1.25;
+        width: 25vw;
+        height: auto;
+        max-height: 100px;
+      }
+
+      @media print {
+        .github {
+          display: none;
+        }
       }
     </style>
 
