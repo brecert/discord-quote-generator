@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create your own discord quotes!" />
     <title>Discord quote generator</title>
     <style>
       @font-face {
@@ -86,10 +87,6 @@
         margin-block-end: 0.65em;
       }
 
-      .avatar:focus {
-        outline: 5px dashed;
-      }
-
       .avatar img {
         width: 100%;
         height: 100%;
@@ -100,6 +97,7 @@
       main {
         line-height: 0.9em;
         gap: 2em;
+        margin-block-end: 0.9em;
       }
 
       .user {
@@ -115,7 +113,6 @@
       }
 
       .logo {
-        margin-block-start: 0.9em;
         scale: 1.25;
       }
 
@@ -123,6 +120,10 @@
         all: unset;
         display: inherit;
         cursor: pointer;
+      }
+
+      button:focus {
+        outline: 5px dashed pink;
       }
     </style>
 
@@ -183,17 +184,23 @@
   </head>
   <body>
     <article class="card">
-      <button id="avatar" class="avatar" onclick="uploadImage()">
+      <button
+        id="avatar"
+        class="avatar"
+        onclick="uploadImage()"
+        aria-label="change profile picture"
+      >
         <img
           id="avatarImg"
           src="https://cdn.discordapp.com/avatars/107556709609779200/28207f1b42c5727c2126025a6a72cf34.png?size=128?size=64"
           width="256"
           height="256"
+          alt="profile picture"
         />
       </button>
       <main>
         <div contenteditable="">
-          IMAGINE A PLACE WHERE YOU COULD TYPE ANYTHING YOU CAN IMAGINE.
+          IMAGINE A PLACE WHERE YOU COULD TYPE ANYTHING YOU COULD IMAGINE.
         </div>
         <div class="user">
           <span class="name">@<span contenteditable="">BREE</span></span
@@ -203,13 +210,16 @@
         </div>
       </main>
       <!-- TODO: better accessability support here... -->
-      <img
-        tabindex="0"
-        id="wordmark"
-        class="logo"
-        src="./Discord-Logo+Wordmark-White.svg"
-        onclick="shuffleColors()"
-      />
+      <button onclick="shuffleColors()" aria-label="shuffle colors">
+        <img
+          id="wordmark"
+          class="logo"
+          src="./Discord-Logo+Wordmark-White.svg"
+          width="292"
+          height="80"
+          alt="discord wordmark logo"
+        />
+      </button>
     </article>
   </body>
 </html>
