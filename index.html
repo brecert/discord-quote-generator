@@ -79,7 +79,7 @@
         height: 2.75em;
 
         padding: 0.1em;
-        outline: 0.1em solid #4ddb72;
+        border: 0.1em solid #4ddb72;
         border-radius: 100%;
 
         margin-block-start: 1.25em;
@@ -164,7 +164,7 @@
 
       // todo: make this not redundent feeling even though it's technichally perfectly fine.
       function shuffleColors() {
-        avatar.style.outlineColor = randomColor();
+        avatar.style.borderColor = randomColor();
 
         let backgroundColor = randomColor();
         document.documentElement.style.backgroundColor = backgroundColor;
