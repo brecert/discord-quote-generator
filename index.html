@@ -23,6 +23,26 @@
         box-sizing: border-box;
       }
 
+      :root {
+        --foreground: white;
+        --background: #eb459f;
+        --accent: #4ddb72;
+        --sub-accent: #f5a2ce;
+      }
+
+      .light {
+        --foreground: #23293a;
+        --sub-accent: #5976ce;
+      }
+
+      .github {
+        filter: invert(1);
+      }
+
+      .light .github {
+        filter: none;
+      }
+
       html,
       body {
         padding: 0;
@@ -33,8 +53,8 @@
         height: 100%;
         width: 100%;
 
-        color: white;
-        background-color: #eb459f;
+        color: var(--foreground);
+        background-color: var(--background);
 
         display: grid;
         place-items: center;
@@ -61,6 +81,23 @@
         max-height: 768px;
       }
 
+      button {
+        all: unset;
+        display: inherit;
+        cursor: pointer;
+      }
+
+      button:focus {
+        outline: 5px dashed var(--sub-accent);
+      }
+
+      .github {
+        position: absolute;
+        display: flex;
+        left: 1rem;
+        top: 1rem;
+      }
+
       .card {
         flex: 1;
 
@@ -80,7 +117,7 @@
         height: 2.75em;
 
         padding: 0.1em;
-        border: 0.1em solid #4ddb72;
+        border: 0.1em solid var(--accent);
         border-radius: 100%;
 
         margin-block-start: 1.25em;
@@ -109,21 +146,11 @@
       .user .tag {
         margin-inline-start: 7px;
         font-weight: 500;
-        color: #f5a2ce;
+        color: var(--sub-accent);
       }
 
       .logo {
         scale: 1.25;
-      }
-
-      button {
-        all: unset;
-        display: inherit;
-        cursor: pointer;
-      }
-
-      button:focus {
-        outline: 5px dashed pink;
       }
     </style>
 
@@ -163,20 +190,20 @@
         return color;
       }
 
+      const htmlElement = document.documentElement;
+
       // todo: make this not redundent feeling even though it's technichally perfectly fine.
       function shuffleColors() {
         avatar.style.borderColor = randomColor();
 
         let backgroundColor = randomColor();
-        document.documentElement.style.backgroundColor = backgroundColor;
-        console.log(backgroundColor);
+        htmlElement.style.backgroundColor = backgroundColor;
+
         if (["#57F287", "#FEE75C"].includes(backgroundColor)) {
-          document.body.style.color = "#23293a";
-          userTag.style.color = "#5976ce";
+          htmlElement.classList.add("light");
           wordmark.src = "./Discord-Logo+Wordmark-Black.svg";
         } else {
-          document.body.style.color = null;
-          userTag.style.color = null;
+          document.documentElement.classList.remove("light");
           wordmark.src = "./Discord-Logo+Wordmark-White.svg";
         }
       }
@@ -184,6 +211,17 @@
   </head>
   <!-- maybe autocorrect works here  -->
   <body>
+    <a
+      title="View the source on github."
+      class="github"
+      href="https://github.com/Brecert/discord-quote-generator"
+      referrerpolicy="noref"
+      ><img
+        alt="github logo"
+        height="32"
+        width="32"
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/github.svg"
+    /></a>
     <article class="card">
       <button
         id="avatar"
