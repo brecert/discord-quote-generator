@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discord quote generator</title>
+    <style>
+      @font-face {
+        font-family: Ginto Nord;
+        font-weight: 800;
+        src: url(/Ginto-Nord-800.woff2) format("woff2"),
+          url(/Ginto-Nord-800.woff2) format("woff");
+      }
+
+      @font-face {
+        font-family: Ginto Nord;
+        font-weight: 500;
+        src: url(/Ginto-Nord-500.woff2) format("woff2");
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      html {
+        height: 100%;
+        width: 100%;
+
+        color: white;
+        background-color: #eb459f;
+
+        display: grid;
+        place-items: center;
+        place-content: center;
+
+        /* Debugging */
+        /* background-image: url(https://autumn.revolt.chat/attachments/xDUMBMjiXNnJbsbp1T_tGdrdmT0Scwimu3JaEFp6Jj);
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.5; */
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+
+        font-family: Ginto Nord;
+        font-weight: 800;
+        font-size: 4rem;
+
+        min-width: 1024px;
+        max-width: 1024px;
+        min-height: 768px;
+        max-height: 768px;
+      }
+
+      .card {
+        flex: 1;
+
+        display: flex;
+        flex-direction: column;
+
+        line-height: 5rem;
+
+        text-align: center;
+        place-items: center;
+
+        padding-inline: 1em;
+      }
+
+      .avatar {
+        width: 2.75em;
+        height: 2.75em;
+
+        padding: 0.1em;
+        outline: 0.1em solid #4ddb72;
+        border-radius: 100%;
+
+        margin-block-start: 1.25em;
+        margin-block-end: 0.65em;
+      }
+
+      .avatar:focus {
+        outline: 5px dashed;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        object-fit: cover;
+      }
+
+      main {
+        line-height: 0.9em;
+        gap: 2em;
+      }
+
+      .user {
+        display: inline;
+        vertical-align: middle;
+        font-size: 0.475em;
+      }
+
+      .user .tag {
+        margin-inline-start: 7px;
+        font-weight: 500;
+        color: #f5a2ce;
+      }
+
+      .logo {
+        margin-block-start: 0.9em;
+        scale: 1.25;
+      }
+
+      button {
+        all: unset;
+        display: inherit;
+        cursor: pointer;
+      }
+    </style>
+
+    <script>
+      /**
+       * prompts for user to input files
+       * @returns {Promise<FileList>}
+       */
+      function promptFile() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        const promise = new Promise(
+          (res, rej) => (input.onchange = (e) => res(input.files))
+        );
+        input.click();
+        return promise;
+      }
+
+      async function uploadImage() {
+        const files = await promptFile();
+        avatarImg.src = URL.createObjectURL(files[0]);
+      }
+
+      let colors = ["#5865F2", "#57F287", "#FEE75C", "#EB459E", "#ED4245"];
+
+      let buf = new Uint8Array(1);
+      const secureRandomInt = () => {
+        window.crypto.getRandomValues(buf);
+        return buf[0];
+      };
+
+      function randomColor() {
+        const index = secureRandomInt() % (colors.length - 2);
+        const color = colors.splice(index, 1)[0];
+        colors.push(color);
+        return color;
+      }
+
+      // todo: make this not redundent feeling even though it's technichally perfectly fine.
+      function shuffleColors() {
+        avatar.style.outlineColor = randomColor();
+
+        let backgroundColor = randomColor();
+        document.documentElement.style.backgroundColor = backgroundColor;
+        console.log(backgroundColor);
+        if (["#57F287", "#FEE75C"].includes(backgroundColor)) {
+          document.body.style.color = "#23293a";
+          userTag.style.color = "#5976ce";
+          wordmark.src = "./Discord-Logo+Wordmark-Black.svg";
+        } else {
+          document.body.style.color = null;
+          userTag.style.color = null;
+          wordmark.src = "./Discord-Logo+Wordmark-White.svg";
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <article class="card">
+      <button id="avatar" class="avatar" onclick="uploadImage()">
+        <img
+          id="avatarImg"
+          src="https://cdn.discordapp.com/avatars/107556709609779200/28207f1b42c5727c2126025a6a72cf34.png?size=128?size=64"
+          width="256"
+          height="256"
+        />
+      </button>
+      <main>
+        <div contenteditable="">
+          IMAGINE A PLACE WHERE YOU COULD TYPE ANYTHING YOU CAN IMAGINE.
+        </div>
+        <div class="user">
+          <span class="name">@<span contenteditable="">BREE</span></span
+          ><span id="userTag" class="tag"
+            >#<span contenteditable="">0000</span></span
+          >
+        </div>
+      </main>
+      <!-- TODO: better accessability support here... -->
+      <img
+        tabindex="0"
+        id="wordmark"
+        class="logo"
+        src="./Discord-Logo+Wordmark-White.svg"
+        onclick="shuffleColors()"
+      />
+    </article>
+  </body>
+</html>
